@@ -1,0 +1,363 @@
+{
+  "routing_question": {
+    "question": "How do you prefer to explore your personality and purpose?",
+    "options": [
+      "A) Through a fun, lighthearted quiz that feels like a game",
+      "B) By quietly reflecting on thoughtful questions",
+      "C) In an immersive story where I make choices like a character",
+      "D) Quick, punchy questions that get to the point fast"
+    ],
+    "routes": {
+      "A": "Playful Path",
+      "B": "Introspective Journey",
+      "C": "Narrative Adventure",
+      "D": "Rapid-Fire Finder"
+    }
+  },
+  "versions": {
+    "playful": {
+      "style": "Playful Path to Purpose",
+      "questions_detailed": [
+        {
+          "question": "It's Saturday and you have the day free. What sounds the most fun?",
+          "options": [
+            "A) Creating art, writing, or making music in my studio",
+            "B) Building something cool with my hands or coding a project",
+            "C) Volunteering at a local charity or helping friends",
+            "D) Planning a side business or researching investments"
+          ]
+        },
+        {
+          "question": "Which of these feels like your secret superpower?",
+          "options": [
+            "A) I can inspire people and make them feel understood",
+            "B) I can figure out how anything works and fix problems",
+            "C) I can bring people together and create positive change",
+            "D) I can spot opportunities and turn ideas into reality"
+          ]
+        },
+        {
+          "question": "If you were a superhero solving world problems, what would you tackle first?",
+          "options": [
+            "A) Spreading joy and creativity to combat despair",
+            "B) Inventing technologies to solve climate change",
+            "C) Ending poverty and ensuring everyone has basic needs",
+            "D) Creating systems that generate wealth for communities"
+          ]
+        },
+        {
+          "question": "You find a treasure chest of $5 million! What do you do career-wise?",
+          "options": [
+            "A) Become a full-time artist and fund creative projects",
+            "B) Start a research lab to work on fascinating problems",
+            "C) Launch a nonprofit to address social issues",
+            "D) Invest in startups and become a serial entrepreneur"
+          ]
+        },
+        {
+          "question": "Which 'power-up' would you choose for your real life?",
+          "options": [
+            "A) Unlimited creative inspiration and artistic ability",
+            "B) Super-learning: master any skill in days",
+            "C) Empathy vision: see exactly how to help anyone",
+            "D) Market sense: always know what people want to buy"
+          ]
+        },
+        {
+          "question": "Which Hogwarts house would you pick if it decided your job?",
+          "options": [
+            "A) Ravenclaw - pursuing knowledge and creative wisdom",
+            "B) Gryffindor - taking bold action to solve big challenges",
+            "C) Hufflepuff - working hard to help and include everyone",
+            "D) Slytherin - being ambitious and strategically successful"
+          ]
+        },
+        {
+          "question": "Your dream sidekick has what quality?",
+          "options": [
+            "A) They're incredibly creative and inspire new ideas",
+            "B) They're brilliant problem-solvers who complement my skills",
+            "C) They're deeply caring and help me stay connected to people",
+            "D) They're business-savvy and help turn dreams into profits"
+          ]
+        },
+        {
+          "question": "Which fantasy creature would you want as a business partner?",
+          "options": [
+            "A) A muse who brings endless creative inspiration",
+            "B) A wise dragon with ancient knowledge and problem-solving skills",
+            "C) A healing unicorn who helps people and spreads goodness",
+            "D) A clever goblin who's amazing at making deals and finding treasure"
+          ]
+        },
+        {
+          "question": "What's your ultimate 'level-up' moment in life?",
+          "options": [
+            "A) Having my creative work touch millions of hearts",
+            "B) Solving a problem that seemed impossible to everyone else",
+            "C) Seeing someone I helped go on to help many others",
+            "D) Building something that creates jobs and opportunities for others"
+          ]
+        }
+      ]
+    },
+    "introspective": {
+      "style": "Introspective Journey",
+      "questions_detailed": [
+        {
+          "question": "How satisfied are you with your current work or life direction?",
+          "options": [
+            "A) I feel fulfilled when I can express myself authentically",
+            "B) I'm satisfied when I'm learning and mastering new skills",
+            "C) I feel most fulfilled when I'm making a difference for others",
+            "D) I'm satisfied when I'm building something valuable and sustainable"
+          ]
+        },
+        {
+          "question": "Which activity makes you feel most alive and 'in the zone'?",
+          "options": [
+            "A) Creating something beautiful or meaningful from nothing",
+            "B) Diving deep into complex problems and finding elegant solutions",
+            "C) Connecting with people and helping them through challenges",
+            "D) Strategizing and building systems that create value"
+          ]
+        },
+        {
+          "question": "People often come to you for help with…?",
+          "options": [
+            "A) Creative projects, self-expression, or finding inspiration",
+            "B) Technical problems, analysis, or learning new skills",
+            "C) Personal issues, emotional support, or life decisions",
+            "D) Business advice, planning, or making things happen"
+          ]
+        },
+        {
+          "question": "What do you feel the world truly needs more of?",
+          "options": [
+            "A) Beauty, creativity, and authentic self-expression",
+            "B) Innovation, knowledge, and well-designed solutions",
+            "C) Compassion, understanding, and genuine human connection",
+            "D) Opportunity, prosperity, and sustainable economic growth"
+          ]
+        },
+        {
+          "question": "What career value matters most to you?",
+          "options": [
+            "A) Creative freedom and the ability to express my authentic self",
+            "B) Intellectual challenge and continuous learning opportunities",
+            "C) Making a positive impact on people's lives and society",
+            "D) Financial security and the ability to build wealth"
+          ]
+        },
+        {
+          "question": "Which of these is your biggest obstacle to fulfillment?",
+          "options": [
+            "A) Not having enough time or space for creative pursuits",
+            "B) Being stuck in routine work that doesn't challenge me",
+            "C) Feeling disconnected from meaningful causes or community",
+            "D) Lacking the resources or opportunities to build something significant"
+          ]
+        },
+        {
+          "question": "How would you rate your confidence in your talents?",
+          "options": [
+            "A) I'm confident in my creative abilities and unique perspective",
+            "B) I'm confident in my analytical and problem-solving skills",
+            "C) I'm confident in my ability to understand and help people",
+            "D) I'm confident in my ability to identify and pursue opportunities"
+          ]
+        },
+        {
+          "question": "When you imagine a purposeful life, what are you doing?",
+          "options": [
+            "A) Creating work that inspires and moves people emotionally",
+            "B) Solving important problems that improve how the world works",
+            "C) Directly helping people overcome challenges and reach their potential",
+            "D) Building enterprises that create value and opportunities for others"
+          ]
+        },
+        {
+          "question": "What legacy do you want to leave behind?",
+          "options": [
+            "A) Beautiful creations that continue to inspire future generations",
+            "B) Knowledge and innovations that advance human understanding",
+            "C) A world where more people feel loved, supported, and empowered",
+            "D) Institutions and systems that create lasting prosperity"
+          ]
+        }
+      ]
+    },
+    "narrative": {
+      "style": "Narrative Adventure",
+      "questions_detailed": [
+        {
+          "question": "You arrive at the Crossroads of Purpose. Which path do you take?",
+          "options": [
+            "A) The Moonlit Path of Dreams, where artists and poets find inspiration",
+            "B) The Crystal Path of Knowledge, where scholars and inventors discover truth",
+            "C) The Golden Path of Service, where healers and teachers help others",
+            "D) The Diamond Path of Achievement, where builders and leaders create empires"
+          ]
+        },
+        {
+          "question": "At the Festival of Expression, which tent excites you most?",
+          "options": [
+            "A) The Storyteller's Circle, where tales of wonder come alive",
+            "B) The Inventor's Workshop, where impossible machines whir and spark",
+            "C) The Healer's Sanctuary, where broken hearts and spirits are mended",
+            "D) The Merchant's Pavilion, where fortunes are made and dreams funded"
+          ]
+        },
+        {
+          "question": "A storm hits a nearby village. How do you help?",
+          "options": [
+            "A) You compose songs and tell stories to lift spirits during the dark hours",
+            "B) You design clever shelters and systems to protect people from future storms",
+            "C) You organize relief efforts and comfort those who have lost everything",
+            "D) You coordinate resources and plan the village's economic recovery"
+          ]
+        },
+        {
+          "question": "At the campfire that night, what wish stirs in your heart?",
+          "options": [
+            "A) To create something so beautiful it brings tears of joy to all who see it",
+            "B) To unlock a mystery that has puzzled the greatest minds for centuries",
+            "C) To heal an ancient wound that has caused suffering for generations",
+            "D) To build a bridge between worlds that creates prosperity for all"
+          ]
+        },
+        {
+          "question": "A master mentor offers to guide you. Who do you choose?",
+          "options": [
+            "A) The Muse of Inspiration, who teaches the secrets of touching souls",
+            "B) The Sage of Understanding, who reveals how all things truly work",
+            "C) The Guardian of Compassion, who shows how to heal the world's pain",
+            "D) The Architect of Fortune, who builds lasting wealth and influence"
+          ]
+        },
+        {
+          "question": "To earn your keep, you must choose a trade. What do you pursue?",
+          "options": [
+            "A) Crafting beautiful objects that bring wonder to everyday life",
+            "B) Solving the technical challenges that others cannot figure out",
+            "C) Caring for those who are struggling and need guidance",
+            "D) Trading and negotiating to create value for everyone involved"
+          ]
+        },
+        {
+          "question": "In a dream, a shadow whispers your deepest fear. What is it?",
+          "options": [
+            "A) That your creative voice will never be heard or understood",
+            "B) That you'll never be skilled enough to solve the problems you care about",
+            "C) That you'll be unable to help the people who need you most",
+            "D) That you'll miss the opportunities that could change everything"
+          ]
+        },
+        {
+          "question": "You receive a letter from a grateful stranger. What did you do for them?",
+          "options": [
+            "A) Your art helped them through their darkest moment and gave them hope",
+            "B) Your solution to their problem saved their livelihood or community",
+            "C) Your kindness and guidance helped them find their way when they were lost",
+            "D) Your business opportunity gave them the chance to build a better life"
+          ]
+        },
+        {
+          "question": "A wise traveler asks your life's purpose. What do you say?",
+          "options": [
+            "A) To add beauty and meaning to the world through creative expression",
+            "B) To understand how things work and use that knowledge to improve life",
+            "C) To ease suffering and help every person I meet become their best self",
+            "D) To create opportunities and systems that help communities thrive"
+          ]
+        }
+      ]
+    },
+    "rapid_fire": {
+      "style": "Rapid-Fire Finder",
+      "questions_detailed": [
+        {
+          "question": "What drives you: Passion or Paycheck?",
+          "options": [
+            "A) Passion - I need to love what I do",
+            "B) Mastery - I want to be excellent at valuable skills",
+            "C) Purpose - I want my work to matter",
+            "D) Paycheck - Financial security comes first"
+          ]
+        },
+        {
+          "question": "Choose one: Skill or Vision?",
+          "options": [
+            "A) Vision - I see possibilities others miss",
+            "B) Skill - I execute better than most people",
+            "C) Heart - I connect with people authentically",
+            "D) Strategy - I know how to make things happen"
+          ]
+        },
+        {
+          "question": "What gets you up on a Monday?",
+          "options": [
+            "A) Excitement about a creative project I'm working on",
+            "B) A challenging problem I'm determined to solve",
+            "C) Knowing I'll make someone's day better",
+            "D) Progress toward an important goal or milestone"
+          ]
+        },
+        {
+          "question": "Most admired trait: Creativity, Logic, Compassion, or Hustle?",
+          "options": [
+            "A) Creativity - Original thinking and artistic vision",
+            "B) Logic - Clear reasoning and systematic thinking",
+            "C) Compassion - Deep empathy and care for others",
+            "D) Hustle - Drive, determination, and getting things done"
+          ]
+        },
+        {
+          "question": "Where would you rather work? Solo, Startup, Nonprofit, or Corporate?",
+          "options": [
+            "A) Solo - Creative freedom and artistic independence",
+            "B) Startup - Innovation and cutting-edge problem solving",
+            "C) Nonprofit - Mission-driven work that helps people",
+            "D) Corporate - Resources, stability, and growth opportunities"
+          ]
+        },
+        {
+          "question": "Would you rather have: Freedom, Stability, Impact, or Recognition?",
+          "options": [
+            "A) Freedom - To express myself and work on my own terms",
+            "B) Stability - Predictable income and clear career progression",
+            "C) Impact - Knowing my work makes a real difference",
+            "D) Recognition - Being acknowledged for my achievements"
+          ]
+        },
+        {
+          "question": "Your motto: Follow your heart or Build the future?",
+          "options": [
+            "A) Follow your heart - Authenticity leads to fulfillment",
+            "B) Build the future - Innovation creates progress",
+            "C) Serve others - Helping people is the highest calling",
+            "D) Seize opportunities - Success comes to those who act"
+          ]
+        },
+        {
+          "question": "What matters more: Helping people or Solving problems?",
+          "options": [
+            "A) Inspiring people through beauty and creativity",
+            "B) Solving problems with elegant, innovative solutions",
+            "C) Helping people overcome challenges and grow",
+            "D) Creating value and opportunities for everyone"
+          ]
+        },
+        {
+          "question": "At your retirement party, what are people thanking you for?",
+          "options": [
+            "A) Creating beautiful work that enriched their lives",
+            "B) Innovations that made their work and life easier",
+            "C) Being there when they needed help and guidance",
+            "D) Building something that created jobs and prosperity"
+          ]
+        }
+      ]
+    }
+  }
+}
