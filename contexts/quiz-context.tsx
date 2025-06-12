@@ -33,6 +33,8 @@ export interface QuizAnswer {
   selectedAnswer: string;
   mappedCategories: string[];
   questionNumber: number;
+  options?: string[];
+  selectedIndex?: number;
 }
 
 interface QuizContextType {
@@ -44,6 +46,8 @@ interface QuizContextType {
   setSelectedPath: (path: string) => void;
   quizFramework: string;
   setQuizFramework: (framework: string) => void;
+  comprehensiveAnalysis?: any;
+  setComprehensiveAnalysis?: (analysis: any) => void;
 }
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
@@ -66,6 +70,7 @@ export function QuizProvider({ children }: { children: ReactNode }) {
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
   const [selectedPath, setSelectedPath] = useState<string>('');
   const [quizFramework, setQuizFramework] = useState<string>('');
+  const [comprehensiveAnalysis, setComprehensiveAnalysis] = useState<any>(null);
 
   const addAnswer = (answer: QuizAnswer) => {
     setAnswers(prev => [...prev, answer]);
@@ -81,6 +86,8 @@ export function QuizProvider({ children }: { children: ReactNode }) {
       setSelectedPath,
       quizFramework,
       setQuizFramework,
+      comprehensiveAnalysis,
+      setComprehensiveAnalysis,
     }}>
       {children}
     </QuizContext.Provider>

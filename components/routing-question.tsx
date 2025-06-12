@@ -42,6 +42,8 @@ export function RoutingQuestion({ onComplete }: RoutingQuestionProps) {
       selectedAnswer: questionData.routing_question.options[option.charCodeAt(0) - 65],
       mappedCategories: ['quiz_style'], // This helps inform their personality
       questionNumber: 1,
+      options: questionData.routing_question.options, // Add options for comprehensive analysis
+      selectedIndex: option.charCodeAt(0) - 65, // Add selected index for comprehensive analysis
     });
 
     onComplete(framework);
@@ -60,9 +62,9 @@ export function RoutingQuestion({ onComplete }: RoutingQuestionProps) {
   const getColor = (option: string) => {
     switch (option) {
       case 'A': return 'from-pink-400 to-rose-500';
-      case 'B': return 'from-blue-400 to-indigo-500';
-      case 'C': return 'from-purple-400 to-violet-500';
-      case 'D': return 'from-orange-400 to-yellow-500';
+      case 'B': return 'from-orange-400 to-yellow-500';
+      case 'C': return 'from-yellow-400 to-orange-500';
+      case 'D': return 'from-orange-500 to-pink-500';
       default: return 'from-gray-400 to-gray-500';
     }
   };
@@ -71,7 +73,7 @@ export function RoutingQuestion({ onComplete }: RoutingQuestionProps) {
     <Card className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm border-0 shadow-xl">
       <CardHeader className="text-center pb-6">
         <div className="text-sm text-gray-500 mb-2">Question 1 of 20</div>
-        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 bg-clip-text text-transparent mb-4">
           Choose Your Journey Style
         </CardTitle>
         <p className="text-lg text-gray-600 leading-relaxed">
@@ -95,7 +97,7 @@ export function RoutingQuestion({ onComplete }: RoutingQuestionProps) {
                   htmlFor={optionKey}
                   className={`flex items-center space-x-4 p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
                     isSelected
-                      ? 'border-purple-500 bg-purple-50 shadow-md scale-[1.02]'
+                      ? 'border-orange-500 bg-orange-50 shadow-md scale-[1.02]'
                       : isDisabled
                       ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
                       : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-lg'
@@ -118,7 +120,7 @@ export function RoutingQuestion({ onComplete }: RoutingQuestionProps) {
                     </p>
                   </div>
                   {isSelected && (
-                    <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center">
                       <div className="w-3 h-3 rounded-full bg-white"></div>
                     </div>
                   )}

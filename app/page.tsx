@@ -15,13 +15,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100/60 via-white to-blue-100/40">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-100/60 via-orange-100/40 to-pink-100/40">
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-lg border-b border-gray-100 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-lg flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-gray-800">Ikigai</span>
@@ -44,34 +44,46 @@ export default function Home() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-purple-50 rounded-full px-4 py-2 mb-8 border border-purple-100">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm font-medium text-purple-700">Discover your purpose</span>
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            {/* Left Column - Text Content */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 bg-orange-50 rounded-full px-4 py-2 mb-8 border border-orange-100">
+                <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                <span className="text-sm font-medium text-orange-700">Discover your purpose</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
+                Discover Your
+                <span className="block bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 bg-clip-text text-transparent py-2">
+                  Ikigai
+                </span>
+              </h1>
+              
+              <p className="text-xl text-gray-600 mb-12 leading-relaxed">
+                Unlock your True Purpose - the perfect intersection of passion, skill, purpose, and profit. 
+                Start your journey to meaningful work today.
+              </p>
+              
+              <div className="flex items-center justify-center lg:justify-start gap-4 mb-12">
+                <Button 
+                  onClick={() => setShowQuiz(true)}
+                  size="lg"
+                  className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+                >
+                  <PlayCircle className="mr-3 w-5 h-5 group-hover:scale-110 transition-transform" />
+                  Start Your Journey
+                  <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
             </div>
-            
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
-              Discover Your
-              <span className="block bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                True Purpose
-              </span>
-            </h1>
-            
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Unlock your Ikigai - the perfect intersection of passion, skill, purpose, and profit. 
-              Start your journey to meaningful work today.
-            </p>
-            
-            <div className="flex items-center justify-center gap-4 mb-12">
-              <Button 
-                onClick={() => setShowQuiz(true)}
-                size="lg"
-                className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
-              >
-                <PlayCircle className="mr-3 w-5 h-5 group-hover:scale-110 transition-transform" />
-                Start Your Journey
-                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+
+            {/* Right Column - Ikigai Diagram */}
+            <div className="flex justify-center lg:justify-end">
+              <img 
+                src="/images/ikigai-diagram.png" 
+                alt="Ikigai Diagram - The intersection of what you love, what you're good at, what the world needs, and what you can be paid for"
+                className="w-[500px] h-[500px] object-contain"
+              />
             </div>
           </div>
         </div>
@@ -144,7 +156,7 @@ export default function Home() {
           {/* Feature Highlights */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge className="bg-purple-50 text-purple-700 border-purple-200 mb-4">AI-POWERED INSIGHTS</Badge>
+              <Badge className="bg-yellow-50 text-yellow-700 border-yellow-200 mb-4">AI-POWERED INSIGHTS</Badge>
               <h3 className="text-3xl font-bold text-gray-900 mb-6">
                 Personalized Career Intelligence
               </h3>
@@ -154,23 +166,23 @@ export default function Home() {
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-orange-500" />
                   <span className="text-gray-700">Personalized career suggestions</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-orange-500" />
                   <span className="text-gray-700">Skill gap analysis and recommendations</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <CheckCircle className="w-5 h-5 text-orange-500" />
                   <span className="text-gray-700">Confidence tracking across all dimensions</span>
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl p-8 border border-purple-100">
+            <div className="bg-gradient-to-br from-yellow-50 to-pink-50 rounded-3xl p-8 border border-orange-100">
               <div className="bg-white rounded-2xl p-6 shadow-lg">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full flex items-center justify-center">
                     <Target className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -181,15 +193,15 @@ export default function Home() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Passion Alignment</span>
-                    <span className="text-sm font-semibold text-green-600">92%</span>
+                    <span className="text-sm font-semibold text-yellow-600">92%</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Skill Match</span>
-                    <span className="text-sm font-semibold text-blue-600">87%</span>
+                    <span className="text-sm font-semibold text-orange-600">87%</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Market Opportunity</span>
-                    <span className="text-sm font-semibold text-purple-600">94%</span>
+                    <span className="text-sm font-semibold text-pink-600">94%</span>
                   </div>
                 </div>
               </div>
@@ -202,7 +214,7 @@ export default function Home() {
       <section id="how-it-works" className="py-20 bg-gray-50/50 px-6">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <Badge className="bg-green-50 text-green-700 border-green-200 mb-4">HOW IT WORKS</Badge>
+            <Badge className="bg-orange-50 text-orange-700 border-orange-200 mb-4">HOW IT WORKS</Badge>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Your Journey to Purpose in 3 Steps
             </h2>
@@ -212,6 +224,34 @@ export default function Home() {
             </p>
           </div>
 
+          {/* Ikigai Diagram Section */}
+          <div className="mb-16">
+            <div className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Understanding Your Ikigai
+                </h3>
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Ikigai is the Japanese concept of finding your life's purpose through the intersection of four key elements. 
+                  Our assessment maps your responses to these four dimensions.
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <img 
+                  src="/images/ikigai-diagram.png" 
+                  alt="Ikigai Diagram - The intersection of what you love, what you're good at, what the world needs, and what you can be paid for"
+                  className="w-[500px] h-[500px] object-contain mx-auto"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-sm text-gray-500 max-w-lg mx-auto">
+                  Your personalized report will show your strengths and confidence levels across each of these four areas, 
+                  along with specific recommendations for your unique profile.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-12">
             {[
               {
@@ -219,21 +259,21 @@ export default function Home() {
                 title: "Choose Your Path",
                 description: "Select from four distinct journey styles - playful, introspective, narrative, or rapid-fire - each designed for different personality types and time preferences.",
                 icon: Target,
-                color: "from-purple-500 to-blue-500"
+                color: "from-yellow-400 to-orange-400"
               },
               {
                 step: "02", 
                 title: "AI-Guided Discovery",
                 description: "Answer 20 thoughtfully crafted questions that adapt based on your responses. Our AI ensures each question is relevant and insightful for your unique journey.",
                 icon: Brain,
-                color: "from-blue-500 to-indigo-500"
+                color: "from-orange-400 to-pink-400"
               },
               {
                 step: "03",
                 title: "Unlock Your Ikigai",
                 description: "Receive a comprehensive report with personalized career suggestions, skill recommendations, and actionable insights to align your life with your true purpose.",
                 icon: Sparkles,
-                color: "from-indigo-500 to-purple-500"
+                color: "from-pink-400 to-yellow-400"
               }
             ].map((step, index) => (
               <div key={index} className="relative">
@@ -255,7 +295,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white">
+      <section className="py-20 px-6 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-white">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Discover Your Purpose?

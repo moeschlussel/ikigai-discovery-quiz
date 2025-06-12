@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { Brain, Loader2, Sparkles, AlertTriangle } from 'lucide-react';
+import { Brain, Loader2, Sparkles } from 'lucide-react';
 import { useQuiz } from '@/contexts/quiz-context';
 import type { UserProfile } from '@/contexts/quiz-context';
 import { getAIService } from '@/lib/ai-service';
@@ -31,7 +31,6 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
   const [askedQuestions, setAskedQuestions] = useState<string[]>([]);
   const [usedAnswers, setUsedAnswers] = useState<Set<string>>(new Set());
   const { addAnswer, answers, userProfile, setUserProfile, quizFramework } = useQuiz();
-  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const totalAdaptiveQuestions = 11; // Questions 10-20
   const currentQuestionNumber = 10 + currentQuestion;
@@ -98,7 +97,6 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
     }
 
     setIsGeneratingQuestion(true);
-    setErrorMessage(''); // Clear any previous errors
     
     try {
       // Find category with lowest confidence
@@ -118,8 +116,6 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
       // Get all previous answer options to avoid duplication
       const allUsedAnswers = Array.from(usedAnswers);
 
-      console.log('Generating AI question for:', targetCategory, 'Question', currentQuestionNumber);
-
       const questionResult = await aiService.generateAdaptiveQuestion({
         currentProfile: userProfile,
         targetCategory,
@@ -129,10 +125,15 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
         usedAnswerOptions: allUsedAnswers
       });
 
-      console.log('AI Question generated successfully:', questionResult);
-
-      // NO SIMILARITY CHECKS OR FALLBACKS - use the AI question directly
-      setCurrentQuestionData(questionResult);
+      // Check if this question or its answers are too similar to previous ones
+      if (isQuestionTooSimilar(questionResult.question, allPreviousQuestions) || 
+          hasRepeatedAnswers(questionResult.options, allUsedAnswers)) {
+        // Try again with more specific requirements
+        const fallbackQuestion = await generateFallbackUniqueQuestion(targetCategory, allPreviousQuestions, allUsedAnswers);
+        setCurrentQuestionData(fallbackQuestion);
+      } else {
+        setCurrentQuestionData(questionResult);
+      }
 
       // Track this question and its answers
       setAskedQuestions(prev => [...prev, questionResult.question]);
@@ -143,16 +144,196 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
       });
 
     } catch (error) {
-      console.error('AI question generation failed completely:', error);
-      
-      // Set error state and stop the quiz
-      const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred';
-      setErrorMessage(`AI Question Generation Failed: ${errorMsg}`);
-      
-      // DO NOT continue with fallbacks - stop here
+      console.error('Failed to generate adaptive question:', error);
+      // Generate a unique fallback question
+      const allPreviousQuestions = [
+        ...answers.map(answer => answer.questionText),
+        ...askedQuestions
+      ];
+      const fallbackQuestion = await generateFallbackUniqueQuestion('Passion', allPreviousQuestions, Array.from(usedAnswers));
+      setCurrentQuestionData(fallbackQuestion);
     }
     
     setIsGeneratingQuestion(false);
+  };
+
+  // Helper function to check if question is too similar
+  const isQuestionTooSimilar = (newQuestion: string, previousQuestions: string[]): boolean => {
+    const newQuestionWords = newQuestion.toLowerCase().split(' ').filter(word => word.length > 3);
+    
+    return previousQuestions.some(prevQuestion => {
+      const prevWords = prevQuestion.toLowerCase().split(' ').filter(word => word.length > 3);
+      const commonWords = newQuestionWords.filter(word => prevWords.includes(word));
+      return commonWords.length >= Math.min(3, newQuestionWords.length * 0.5);
+    });
+  };
+
+  // Helper function to check for repeated answers
+  const hasRepeatedAnswers = (newOptions: string[], usedAnswers: string[]): boolean => {
+    return newOptions.some(option => 
+      usedAnswers.some(usedAnswer => 
+        option.toLowerCase().trim() === usedAnswer ||
+        calculateSimilarity(option.toLowerCase(), usedAnswer) > 0.8
+      )
+    );
+  };
+
+  // Simple similarity calculation
+  const calculateSimilarity = (str1: string, str2: string): number => {
+    const words1 = str1.split(' ');
+    const words2 = str2.split(' ');
+    const commonWords = words1.filter(word => words2.includes(word));
+    return commonWords.length / Math.max(words1.length, words2.length);
+  };
+
+  // Generate a guaranteed unique fallback question
+  const generateFallbackUniqueQuestion = async (category: string, previousQuestions: string[], usedAnswers: string[]): Promise<AdaptiveQuestion> => {
+    const uniqueQuestions = {
+      Passion: [
+        {
+          question: "Which of these weekend activities would most excite you?",
+          options: [
+            "Attending a creative workshop or art exhibition",
+            "Taking apart something to understand how it works",
+            "Volunteering for a cause you believe in",
+            "Starting a small business or side project"
+          ]
+        },
+        {
+          question: "When you daydream about your ideal future, what stands out most?",
+          options: [
+            "Having the freedom to express yourself creatively",
+            "Being recognized as an expert in your field",
+            "Making a meaningful difference in people's lives",
+            "Building financial security and independence"
+          ]
+        },
+        {
+          question: "What type of book or content do you find most engaging?",
+          options: [
+            "Biographies of artists and creative innovators",
+            "Technical guides and educational content",
+            "Stories of social change and human resilience",
+            "Business strategies and success principles"
+          ]
+        }
+      ],
+      Profession: [
+        {
+          question: "In a work environment, what energizes you most?",
+          options: [
+            "Brainstorming creative solutions to challenges",
+            "Analyzing data and optimizing processes",
+            "Collaborating with diverse teams",
+            "Leading projects and driving results"
+          ]
+        },
+        {
+          question: "What type of feedback do you find most valuable?",
+          options: [
+            "Appreciation for your creative vision and originality",
+            "Recognition of your expertise and attention to detail",
+            "Acknowledgment of your positive impact on others",
+            "Validation of your strategic thinking and results"
+          ]
+        },
+        {
+          question: "When learning something new, what approach works best for you?",
+          options: [
+            "Experimenting freely and finding your own way",
+            "Following structured courses and proven methods",
+            "Learning from mentors and peer discussions",
+            "Focusing on practical applications and outcomes"
+          ]
+        }
+      ],
+      Mission: [
+        {
+          question: "What global challenge concerns you most personally?",
+          options: [
+            "Loss of cultural diversity and creative expression",
+            "Lack of access to quality education and information",
+            "Social inequality and mental health issues",
+            "Economic instability and job insecurity"
+          ]
+        },
+        {
+          question: "How do you prefer to contribute to your community?",
+          options: [
+            "Through artistic expression or cultural events",
+            "By sharing knowledge and teaching skills",
+            "By directly helping individuals in need",
+            "By creating opportunities and economic value"
+          ]
+        },
+        {
+          question: "What legacy would you most want to leave behind?",
+          options: [
+            "Beautiful creations that inspire future generations",
+            "Knowledge and innovations that advance understanding",
+            "Lives touched and communities strengthened",
+            "Systems and organizations that create lasting value"
+          ]
+        }
+      ],
+      Vocation: [
+        {
+          question: "What motivates you most about career advancement?",
+          options: [
+            "Having more creative freedom and resources",
+            "Developing deeper expertise and mastery",
+            "Gaining influence to help more people",
+            "Achieving financial goals and stability"
+          ]
+        },
+        {
+          question: "How do you define professional success?",
+          options: [
+            "Creating work that you're truly proud of",
+            "Being recognized as highly skilled in your field",
+            "Having a positive impact on others' lives",
+            "Achieving your financial and lifestyle goals"
+          ]
+        },
+        {
+          question: "What work environment brings out your best performance?",
+          options: [
+            "Flexible spaces that encourage creative thinking",
+            "Well-organized environments with clear processes",
+            "Collaborative settings with strong team dynamics",
+            "Results-oriented cultures with clear incentives"
+          ]
+        }
+      ]
+    };
+
+    const categoryQuestions = uniqueQuestions[category as keyof typeof uniqueQuestions] || uniqueQuestions.Passion;
+    
+    // Find a question that hasn't been asked
+    for (const questionData of categoryQuestions) {
+      if (!previousQuestions.includes(questionData.question) && 
+          !hasRepeatedAnswers(questionData.options, usedAnswers)) {
+        return {
+          targetCategory: category,
+          question: questionData.question,
+          options: questionData.options,
+          reasoning: `Exploring ${category} through a unique perspective`
+        };
+      }
+    }
+
+    // If all questions have been used, create a completely new one
+    return {
+      targetCategory: category,
+      question: `What aspect of ${category.toLowerCase()} matters most to you right now?`,
+      options: [
+        `Finding new ways to explore ${category.toLowerCase()}`,
+        `Developing stronger ${category.toLowerCase()} foundations`,
+        `Connecting with others through ${category.toLowerCase()}`,
+        `Building practical ${category.toLowerCase()} skills`
+      ],
+      reasoning: `Final unique exploration of ${category}`
+    };
   };
 
   const handleAnswerSelect = async (answer: string) => {
@@ -228,7 +409,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
     return (
       <Card className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm border-0 shadow-xl">
         <CardContent className="flex flex-col items-center justify-center py-16">
-          <Brain className="w-16 h-16 text-orange-600 animate-pulse mb-6" />
+          <Brain className="w-16 h-16 text-purple-600 animate-pulse mb-6" />
           <h3 className="text-2xl font-bold text-gray-800 mb-4">Analyzing Your Responses</h3>
           <p className="text-gray-600 text-center max-w-md mb-6">
             Our AI is analyzing your answers holistically to build your personalized Ikigai profile...
@@ -246,7 +427,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
     return (
       <Card className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm border-0 shadow-xl">
         <CardContent className="flex flex-col items-center justify-center py-16">
-          <Sparkles className="w-12 h-12 text-orange-600 animate-pulse mb-6" />
+          <Sparkles className="w-12 h-12 text-purple-600 animate-pulse mb-6" />
           <h3 className="text-xl font-bold text-gray-800 mb-4">Crafting Your Next Question</h3>
           <p className="text-gray-600 text-center max-w-md mb-6">
             AI is analyzing your profile to create a personalized question that explores your areas of growth...
@@ -265,34 +446,6 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
     );
   }
 
-  if (errorMessage) {
-    return (
-      <Card className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm border-0 shadow-xl">
-        <CardContent className="flex flex-col items-center justify-center py-16">
-          <AlertTriangle className="w-16 h-16 text-red-500 mb-6" />
-          <h3 className="text-2xl font-bold text-red-600 mb-4">AI Question Generation Failed</h3>
-          <p className="text-gray-600 text-center max-w-md mb-6">
-            {errorMessage}
-          </p>
-          <div className="space-y-4 text-center">
-            <p className="text-sm text-gray-500">
-              Please check your OpenAI API configuration and try again.
-            </p>
-            <button 
-              onClick={() => {
-                setErrorMessage('');
-                generateNextAdaptiveQuestion();
-              }}
-              className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-            >
-              Try Again
-            </button>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
     <Card className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm border-0 shadow-xl">
       <CardHeader className="pb-6">
@@ -300,7 +453,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
           <div className="text-sm text-gray-500">
             Question {currentQuestionNumber} of 20
           </div>
-          <div className="text-sm font-medium text-orange-600 flex items-center gap-2">
+          <div className="text-sm font-medium text-purple-600 flex items-center gap-2">
             <Sparkles className="w-4 h-4" />
             AI-Powered Questions
           </div>
@@ -314,7 +467,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
             🎯 {currentQuestionData.reasoning}
           </p>
         )}
-        <div className="text-xs text-orange-600 mt-2">
+        <div className="text-xs text-purple-600 mt-2">
           Exploring: {currentQuestionData.targetCategory}
         </div>
       </CardHeader>
@@ -332,7 +485,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
                   htmlFor={`adaptive-${optionKey}`}
                   className={`flex items-center space-x-4 p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     isSelected
-                      ? 'border-orange-500 bg-orange-50 shadow-sm scale-[1.01]'
+                      ? 'border-purple-500 bg-purple-50 shadow-sm scale-[1.01]'
                       : isDisabled
                       ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
                       : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
@@ -341,7 +494,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
                   <RadioGroupItem value={optionKey} id={`adaptive-${optionKey}`} className="sr-only" />
                   <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                     isSelected
-                      ? 'border-orange-500 bg-orange-500 scale-110'
+                      ? 'border-purple-500 bg-purple-500 scale-110'
                       : 'border-gray-300'
                   }`}>
                     {isSelected && isProcessing ? (

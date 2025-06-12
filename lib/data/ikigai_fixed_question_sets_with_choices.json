@@ -277,7 +277,7 @@
       "style": "Rapid-Fire Finder",
       "questions_detailed": [
         {
-          "question": "What drives you: Passion or Paycheck?",
+          "question": "What gets you out of bed every morning?",
           "options": [
             "A) Passion - I need to love what I do",
             "B) Mastery - I want to be excellent at valuable skills",
@@ -286,7 +286,7 @@
           ]
         },
         {
-          "question": "Choose one: Skill or Vision?",
+          "question": "What's your secret weapon in life?",
           "options": [
             "A) Vision - I see possibilities others miss",
             "B) Skill - I execute better than most people",
@@ -295,7 +295,7 @@
           ]
         },
         {
-          "question": "What gets you up on a Monday?",
+          "question": "It's Monday morning. What actually excites you?",
           "options": [
             "A) Excitement about a creative project I'm working on",
             "B) A challenging problem I'm determined to solve",
@@ -304,7 +304,7 @@
           ]
         },
         {
-          "question": "Most admired trait: Creativity, Logic, Compassion, or Hustle?",
+          "question": "If people had to describe you in one word, what would it be?",
           "options": [
             "A) Creativity - Original thinking and artistic vision",
             "B) Logic - Clear reasoning and systematic thinking",
@@ -313,7 +313,7 @@
           ]
         },
         {
-          "question": "Where would you rather work? Solo, Startup, Nonprofit, or Corporate?",
+          "question": "Your ideal work environment?",
           "options": [
             "A) Solo - Creative freedom and artistic independence",
             "B) Startup - Innovation and cutting-edge problem solving",
@@ -322,7 +322,7 @@
           ]
         },
         {
-          "question": "Would you rather have: Freedom, Stability, Impact, or Recognition?",
+          "question": "What matters most to you in your career?",
           "options": [
             "A) Freedom - To express myself and work on my own terms",
             "B) Stability - Predictable income and clear career progression",
@@ -331,7 +331,7 @@
           ]
         },
         {
-          "question": "Your motto: Follow your heart or Build the future?",
+          "question": "What's written on your imaginary life banner?",
           "options": [
             "A) Follow your heart - Authenticity leads to fulfillment",
             "B) Build the future - Innovation creates progress",
@@ -340,7 +340,7 @@
           ]
         },
         {
-          "question": "What matters more: Helping people or Solving problems?",
+          "question": "You only have time for one. Which do you choose?",
           "options": [
             "A) Inspiring people through beauty and creativity",
             "B) Solving problems with elegant, innovative solutions",
@@ -349,7 +349,7 @@
           ]
         },
         {
-          "question": "At your retirement party, what are people thanking you for?",
+          "question": "Flash forward 30 years. What's your legacy?",
           "options": [
             "A) Creating beautiful work that enriched their lives",
             "B) Innovations that made their work and life easier",

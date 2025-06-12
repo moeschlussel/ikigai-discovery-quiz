@@ -46,6 +46,8 @@ export function FixedQuestions({ selectedPath, onComplete }: FixedQuestionsProps
       selectedAnswer: questions[currentQuestion].options[answer.charCodeAt(0) - 65],
       mappedCategories,
       questionNumber: currentQuestion + 2, // Questions 2-10
+      options: questions[currentQuestion].options, // Add options for comprehensive analysis
+      selectedIndex: answer.charCodeAt(0) - 65, // Add selected index for comprehensive analysis
     });
 
     if (currentQuestion < totalQuestions - 1) {
@@ -74,7 +76,7 @@ export function FixedQuestions({ selectedPath, onComplete }: FixedQuestionsProps
           <div className="text-sm text-gray-500">
             Question {currentQuestionNumber} of 20
           </div>
-          <div className="text-sm font-medium text-purple-600">
+          <div className="text-sm font-medium text-orange-600">
             {questionData.versions[selectedPath as keyof typeof questionData.versions]?.style}
           </div>
         </div>
@@ -97,7 +99,7 @@ export function FixedQuestions({ selectedPath, onComplete }: FixedQuestionsProps
                   htmlFor={`fixed-${optionKey}`}
                   className={`flex items-center space-x-4 p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     isSelected
-                      ? 'border-purple-500 bg-purple-50 shadow-sm scale-[1.01]'
+                      ? 'border-orange-500 bg-orange-50 shadow-sm scale-[1.01]'
                       : isDisabled
                       ? 'border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed'
                       : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
@@ -106,7 +108,7 @@ export function FixedQuestions({ selectedPath, onComplete }: FixedQuestionsProps
                   <RadioGroupItem value={optionKey} id={`fixed-${optionKey}`} className="sr-only" />
                   <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                     isSelected
-                      ? 'border-purple-500 bg-purple-500 scale-110'
+                      ? 'border-orange-500 bg-orange-500 scale-110'
                       : 'border-gray-300'
                   }`}>
                     {isSelected && isProcessing ? (

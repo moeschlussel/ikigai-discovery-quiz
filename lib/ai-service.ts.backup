@@ -167,17 +167,15 @@ export class AIService {
   }
 
   async generateAdaptiveQuestion(request: AIQuestionRequest): Promise<AIQuestionResponse> {
-    // DISABLED: No curated questions - only AI-generated based on profile
-    // const curatedQuestion = this.getCuratedQuestion(request);
-    // if (curatedQuestion) {
-    //   return curatedQuestion;
-    // }
+    // Use curated questions for better diversity and balance
+    const curatedQuestion = this.getCuratedQuestion(request);
+    if (curatedQuestion) {
+      return curatedQuestion;
+    }
 
     const prompt = this.buildAdaptiveQuestionPrompt(request);
     
     try {
-      console.log('Attempting AI question generation for:', request.targetCategory);
-      
       const response = await fetch(`${this.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
@@ -203,23 +201,14 @@ export class AIService {
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('OpenAI API Error:', response.status, response.statusText, errorText);
-        throw new Error(`AI service failed: ${response.status} ${response.statusText}. ${errorText}`);
+        throw new Error(`AI service error: ${response.statusText}`);
       }
 
       const data = await response.json();
-      console.log('AI Question Generated Successfully:', data.choices[0].message.content);
-      
-      const aiQuestion = this.parseQuestionResponse(data.choices[0].message.content);
-      console.log('Parsed AI Question:', aiQuestion);
-      
-      return aiQuestion;
+      return this.parseQuestionResponse(data.choices[0].message.content);
     } catch (error) {
-      console.error('AI question generation failed completely:', error);
-      
-      // NO FALLBACKS - throw error to stop the quiz
-      throw new Error(`Failed to generate AI question: ${error instanceof Error ? error.message : 'Unknown error'}. Please check your API configuration and try again.`);
+      console.error('AI question generation failed:', error);
+      return this.generateFallbackQuestion(request);
     }
   }
 
@@ -547,9 +536,7 @@ You have received 20 structured multiple-choice questions from a user. Each ques
 
 ⸻
 
-💡 CRITICAL: Write ALL descriptions and explanations in SECOND PERSON, speaking directly to the user. Use "You are...", "You prefer...", "You thrive when...", etc. NEVER use "The user is..." or "They prefer..." or any third person language.
-
-Include the following instructions:
+💡 Include the following instructions:
 1. Analyze each question individually, comparing the user's chosen answer to the other three options. What does their choice suggest about their values, tendencies, interests, and avoidance patterns?
 2. Based on their total set of 20 choices, construct a user profile across the following core Ikigai categories:
 • Passion: What they love (interests, flow activities, intrinsic joy)
@@ -557,9 +544,9 @@ Include the following instructions:
 • Vocation: What they can be paid for (marketable traits, money mindset)
 • Mission: What the world needs (social focus, purpose, contribution)
 3. For each category, include:
-• A 2–3 sentence summary description written in SECOND PERSON ("You are energized by...", "You excel at...")
+• A 2–3 sentence summary description
 • A confidence score from 1 to 100 based on how clearly their answers reflect that domain
-4. Then, rate and summarize the following personality traits (with short explanations in SECOND PERSON and confidence scores):
+4. Then, rate and summarize the following personality traits (with short explanations and confidence scores):
 • Risk Tolerance
 • Time Horizon
 • Lifestyle Desires
@@ -568,7 +555,7 @@ Include the following instructions:
 • Social Orientation
 • Monetization Preference (e.g. employment, freelancing, passive income, etc.)
 5. Finally, generate:
-• A concise Ikigai statement in 1–2 sentences using SECOND PERSON
+• A concise Ikigai statement in 1–2 sentences
 • A nickname or persona label (e.g. "The Soulful Builder" or "The Maverick Mentor")
 • 2–3 career paths or life directions that align with this profile
 • 2–3 hobby or lifestyle suggestions that would energize them`
@@ -621,19 +608,19 @@ Analyze holistically - look for patterns and deeper meanings in their actual ans
 Format as JSON:
 {
   "Passion": {
-    "description": "Detailed analysis of your passions based on your responses",
+    "description": "Detailed analysis of their passions based on their responses",
     "confidence": 75
   },
   "Profession": {
-    "description": "Analysis of your skills and capabilities from your answers",
+    "description": "Analysis of their skills and capabilities from their answers",
     "confidence": 60
   },
   "Mission": {
-    "description": "Your sense of purpose and contribution based on what you said",
+    "description": "Their sense of purpose and contribution based on what they said",
     "confidence": 45
   },
   "Vocation": {
-    "description": "Your relationship with money and opportunities from your responses",
+    "description": "Their relationship with money and opportunities from their responses",
     "confidence": 55
   },
   "Traits": {
@@ -719,9 +706,9 @@ Target: ${request.targetCategory}
 
 Update the profile by:
 1. Increasing target category confidence (+10 to +20 points)
-2. Updating description with new insights from your specific answer
-3. Updating relevant traits based on what your answer reveals
-4. Cross-category updates if your answer provides insights for other areas
+2. Updating description with new insights from their specific answer
+3. Updating relevant traits based on what their answer reveals
+4. Cross-category updates if their answer provides insights for other areas
 
 Base updates on their actual answer, not assumptions. Be responsive to what they're telling you about themselves.
 
@@ -761,27 +748,27 @@ Quiz Style: ${request.quizStyle}
 Generate personalized recommendations based on THEIR specific interests and values shown in their responses. Don't make generic assumptions.
 
 Generate:
-1. **Ikigai Summary:** 2-3 sentences describing your unique purpose based on your specific profile
-2. **Persona:** Memorable title that reflects your specific combination of traits
-3. **Career Suggestions:** 3-5 specific career paths that match your actual interests and strengths
-4. **Hobby Suggestions:** 3-5 fulfilling activities that align with your demonstrated passions
-5. **Insights:** Key observations based on your specific responses and recommendations
+1. **Ikigai Summary:** 2-3 sentences describing their unique purpose based on their specific profile
+2. **Persona:** Memorable title that reflects their specific combination of traits
+3. **Career Suggestions:** 3-5 specific career paths that match their actual interests and strengths
+4. **Hobby Suggestions:** 3-5 fulfilling activities that align with their demonstrated passions
+5. **Insights:** Key observations based on their specific responses and recommendations
 
-Be responsive to your actual interests. If you showed interest in environmental issues, include that. If you're more focused on personal creativity, focus there. Match your actual profile.
+Be responsive to their actual interests. If they showed interest in environmental issues, include that. If they're more focused on personal creativity, focus there. Match their actual profile.
 
 Format as JSON:
 {
-  "IkigaiSummary": "Compelling description of your purpose based on your specific profile",
-  "Persona": "The [Adjective] [Noun] that reflects your unique combination",
+  "IkigaiSummary": "Compelling description of their purpose based on their specific profile",
+  "Persona": "The [Adjective] [Noun] that reflects their unique combination",
   "CareerSuggestions": [
-    "Specific career matching your interests with brief explanation",
-    "Another career path aligned with your values",
-    "Third career suggestion based on your strengths"
+    "Specific career matching their interests with brief explanation",
+    "Another career path aligned with their values",
+    "Third career suggestion based on their strengths"
   ],
   "HobbySuggestions": [
-    "Hobby aligning with your demonstrated passions",
-    "Activity developing skills you showed interest in",
-    "Pursuit serving your specific mission interests"
+    "Hobby aligning with their demonstrated passions",
+    "Activity developing skills they showed interest in",
+    "Pursuit serving their specific mission interests"
   ],
   "ConfidenceRadar": {
     "Passion": ${request.profile.Passion?.confidence || 50},
@@ -790,10 +777,10 @@ Format as JSON:
     "Vocation": ${request.profile.Vocation?.confidence || 50}
   },
   "DetailedInsights": [
-    "Key strength to leverage based on your responses",
-    "Area for growth specific to your profile",
-    "Unique combination you possess",
-    "Next steps tailored to your interests"
+    "Key strength to leverage based on their responses",
+    "Area for growth specific to their profile",
+    "Unique combination they possess",
+    "Next steps tailored to their interests"
   ]
 }
 `;
@@ -815,75 +802,73 @@ Please analyze the following 20 questions and the user's choices to create a com
 
 ${questionsData}
 
-IMPORTANT: Write ALL descriptions and explanations in SECOND PERSON, speaking directly to the user. Use "You are...", "You prefer...", "You thrive when...", etc. NEVER use "The user is..." or "They prefer..." or any third person language.
-
 Provide your analysis in the following JSON format:
 {
   "questionAnalysis": [
     {
       "questionNumber": 1,
-      "choiceAnalysis": "What your specific choice reveals about your preferences and values",
-      "valueInsights": "What this suggests about your core values and avoidance patterns"
+      "choiceAnalysis": "What their specific choice reveals about their preferences and values",
+      "valueInsights": "What this suggests about their core values and avoidance patterns"
     }
     // ... for all 20 questions
   ],
   "ikigaiProfile": {
     "Passion": {
-      "description": "2-3 sentences about what you love based on your choices - use 'You are energized by...', 'You find joy in...'",
+      "description": "2-3 sentences about what they love based on their choices",
       "confidence": 85
     },
     "Profession": {
-      "description": "2-3 sentences about what you're good at based on your choices - use 'You excel at...', 'You have a talent for...'", 
+      "description": "2-3 sentences about what they're good at based on their choices", 
       "confidence": 78
     },
     "Vocation": {
-      "description": "2-3 sentences about what you can be paid for based on your choices - use 'You can create value through...', 'You have the ability to...'",
+      "description": "2-3 sentences about what they can be paid for based on their choices",
       "confidence": 82
     },
     "Mission": {
-      "description": "2-3 sentences about what the world needs from you based on your choices - use 'You are called to...', 'You feel drawn to...'",
+      "description": "2-3 sentences about what the world needs from them based on their choices",
       "confidence": 75
     }
   },
   "personalityTraits": {
     "Risk Tolerance": {
       "value": "Moderate risk-taker",
-      "explanation": "Short explanation based on your choices - use 'You balance...' or 'You prefer...'",
+      "explanation": "Short explanation based on their choices",
       "confidence": 80
     },
     "Time Horizon": {
       "value": "Long-term focused",
-      "explanation": "Short explanation based on your choices - use 'You think strategically...' or 'You focus on...'", 
+      "explanation": "Short explanation based on their choices", 
       "confidence": 85
     },
     "Lifestyle Desires": {
       "value": "Work-life balance",
-      "explanation": "Short explanation based on your choices - use 'You seek...' or 'You value...'",
+      "explanation": "Short explanation based on their choices",
       "confidence": 90
     },
     "Biggest Fears": {
       "value": "Lack of purpose",
-      "explanation": "Short explanation based on your choices - use 'You worry about...' or 'You fear...'",
+      "explanation": "Short explanation based on their choices",
       "confidence": 75
     },
     "Ideal Work Environment": {
       "value": "Collaborative and creative",
-      "explanation": "Short explanation based on your choices - use 'You thrive in...' or 'You prefer...'",
+      "explanation": "Short explanation based on their choices",
       "confidence": 88
     },
     "Social Orientation": {
       "value": "Team-oriented",
-      "explanation": "Short explanation based on your choices - use 'You enjoy...' or 'You work best when...'",
+      "explanation": "Short explanation based on their choices",
       "confidence": 82
     },
     "Monetization Preference": {
       "value": "Traditional employment",
-      "explanation": "Short explanation based on your choices - use 'You prefer...' or 'You value...'",
+      "explanation": "Short explanation based on their choices",
       "confidence": 78
     }
   },
-  "ikigaiStatement": "1-2 sentence statement of your unique Ikigai based on all your choices - use 'Your Ikigai lies...' or 'You find your purpose...'",
-  "personaLabel": "The [Adjective] [Noun] - a memorable nickname that captures your essence",
+  "ikigaiStatement": "1-2 sentence statement of their unique Ikigai based on all their choices",
+  "personaLabel": "The [Adjective] [Noun] - a memorable nickname that captures their essence",
   "careerPaths": [
     "Specific career path 1 with brief explanation",
     "Specific career path 2 with brief explanation", 
@@ -981,10 +966,10 @@ Provide your analysis in the following JSON format:
           Vocation: 65
         },
         DetailedInsights: [
-          "Key strength to leverage based on your responses",
-          "Area for growth specific to your profile",
-          "Unique combination you possess",
-          "Next steps tailored to your interests"
+          "You have a strong sense of purpose and desire to help others",
+          "Continue developing your professional skills",
+          "Explore ways to monetize your passions",
+          "Seek opportunities that align all four elements"
         ]
       };
     }
@@ -1014,7 +999,7 @@ Provide your analysis in the following JSON format:
         ikigaiStatement: "Your Ikigai lies at the intersection of creative problem-solving and meaningful contribution to others' growth and success.",
         personaLabel: "The Thoughtful Catalyst",
         careerPaths: [
-          "Product Manager - combining your analytical skills with user-focused innovation",
+          "Product Manager - combining analytical skills with user-focused innovation",
           "Learning & Development Specialist - helping others grow while using your expertise",
           "Nonprofit Program Director - creating positive impact through strategic leadership"
         ],
@@ -1180,10 +1165,10 @@ Provide your analysis in the following JSON format:
         Vocation: request.profile.Vocation?.confidence || 65
       },
       DetailedInsights: [
-        "Key strength to leverage based on your responses",
-        "Area for growth specific to your profile",
-        "Unique combination you possess",
-        "Next steps tailored to your interests"
+        "You have a strong sense of purpose",
+        "Continue developing your professional skills",
+        "Explore ways to monetize your passions",
+        "Seek opportunities that align all four elements"
       ]
     };
   }
@@ -1209,7 +1194,7 @@ Provide your analysis in the following JSON format:
       ikigaiStatement: "Your Ikigai lies at the intersection of creative problem-solving and meaningful contribution to others' growth and success.",
       personaLabel: "The Thoughtful Catalyst",
       careerPaths: [
-        "Product Manager - combining your analytical skills with user-focused innovation",
+        "Product Manager - combining analytical skills with user-focused innovation",
         "Learning & Development Specialist - helping others grow while using your expertise",
         "Nonprofit Program Director - creating positive impact through strategic leadership"
       ],
