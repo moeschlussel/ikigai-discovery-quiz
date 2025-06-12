@@ -10,6 +10,7 @@ An AI-powered interactive quiz that helps you discover your Ikigai - your reason
 - **Beautiful Results**: Visual Ikigai diagram with personalized insights
 - **Career & Lifestyle Recommendations**: AI-generated suggestions tailored to your unique profile
 - **Downloadable Reports**: Save your results as an HTML report
+- **Analytics Integration**: Built-in Vercel Analytics and Google Analytics tracking
 
 ## 🚀 Live Demo
 
@@ -20,6 +21,7 @@ Visit the live application: [Coming Soon - Deploy URL will be here]
 - **Framework**: Next.js 14 with App Router
 - **Styling**: Tailwind CSS + Shadcn/ui Components
 - **AI Integration**: OpenAI GPT-4 for adaptive questions and analysis
+- **Analytics**: Vercel Analytics + Google Analytics 4
 - **TypeScript**: Full type safety throughout the application
 - **Responsive Design**: Works beautifully on all devices
 
@@ -39,7 +41,11 @@ Visit the live application: [Coming Soon - Deploy URL will be here]
 3. **Set up environment variables**
    Create a `.env.local` file in the root directory:
    ```env
+   # Required: OpenAI API Key
    OPENAI_API_KEY=your_openai_api_key_here
+   
+   # Optional: Google Analytics Measurement ID (starts with G-)
+   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
    ```
 
 4. **Run the development server**
@@ -49,6 +55,19 @@ Visit the live application: [Coming Soon - Deploy URL will be here]
 
 5. **Open your browser**
    Navigate to `http://localhost:3000`
+
+## 📊 Analytics Setup
+
+### Google Analytics (Optional)
+1. Create a Google Analytics 4 property at [analytics.google.com](https://analytics.google.com)
+2. Get your Measurement ID (starts with `G-`)
+3. Add it to your environment variables as `NEXT_PUBLIC_GA_ID`
+4. Deploy - analytics will start tracking automatically!
+
+### Vercel Analytics
+- Automatically enabled when deployed to Vercel
+- No additional setup required
+- View analytics in your Vercel dashboard
 
 ## 🌟 How It Works
 
@@ -86,6 +105,7 @@ This project is open source and available under the [MIT License](LICENSE).
 - Built with love using modern web technologies
 - Inspired by the timeless wisdom of Ikigai
 - Powered by OpenAI's advanced language models
+- Analytics by Vercel Analytics and Google Analytics
 
 ---
 
