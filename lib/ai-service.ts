@@ -1227,7 +1227,7 @@ let aiService: AIService | null = null;
 
 export function getAIService(): AIService {
   if (!aiService) {
-    const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY || '';
+    const apiKey = process.env.OPENAI_API_KEY || '';
     if (!apiKey) {
       console.warn('OpenAI API key not found. Using simulated AI responses.');
     }
