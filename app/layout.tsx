@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     title: 'Discover Your Ikigai - Find Your Purpose',
     description: 'AI-powered quiz to help you find your reason for being',
     type: 'website',
+    url: 'https://ikigaime.com',
   },
   twitter: {
     card: 'summary_large_image',
@@ -43,7 +44,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
         <Analytics />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || 'G-PZ51XB3FX4'} />
       </body>
     </html>
   );

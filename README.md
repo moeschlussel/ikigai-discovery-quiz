@@ -14,7 +14,7 @@ An AI-powered interactive quiz that helps you discover your Ikigai - your reason
 
 ## 🚀 Live Demo
 
-Visit the live application: [Coming Soon - Deploy URL will be here]
+Visit the live application: **[ikigaime.com](https://ikigaime.com)**
 
 ## 🛠️ Tech Stack
 
@@ -45,7 +45,7 @@ Visit the live application: [Coming Soon - Deploy URL will be here]
    OPENAI_API_KEY=your_openai_api_key_here
    
    # Optional: Google Analytics Measurement ID (starts with G-)
-   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+   NEXT_PUBLIC_GA_ID=G-PZ51XB3FX4
    ```
 
 4. **Run the development server**
@@ -109,4 +109,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Ready to discover your Ikigai?** 🌸 Start your journey of self-discovery today! 
+**Ready to discover your Ikigai?** 🌸 Start your journey at [ikigaime.com](https://ikigaime.com)! 
