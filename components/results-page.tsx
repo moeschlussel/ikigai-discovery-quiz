@@ -24,7 +24,6 @@ import {
   Loader2
 } from 'lucide-react';
 import { useQuiz } from '@/contexts/quiz-context';
-import { getAIService } from '@/lib/ai-service';
 
 export function ResultsPage() {
   const { answers, comprehensiveAnalysis, setComprehensiveAnalysis } = useQuiz();
@@ -67,8 +66,6 @@ export function ResultsPage() {
     setLoadingMessage("Looking back over your answers...");
 
     try {
-      const aiService = getAIService();
-      
       // Prepare data for comprehensive analysis
       const questionsAndAnswers = answers.map((answer, index) => ({
         questionNumber: answer.questionNumber || index + 1,
@@ -78,9 +75,22 @@ export function ResultsPage() {
         selectedIndex: answer.selectedIndex || 0
       }));
 
-      const analysis = await aiService.generateComprehensiveAnalysis({
-        questionsAndAnswers
+      const response = await fetch('/api/ai/comprehensive-analysis', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          questionsAndAnswers
+        }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || `Failed to generate analysis: ${response.statusText}`);
+      }
+
+      const analysis = await response.json();
 
       if (setComprehensiveAnalysis) {
         setComprehensiveAnalysis(analysis);

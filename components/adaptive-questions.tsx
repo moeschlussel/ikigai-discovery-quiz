@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Brain, Loader2, Sparkles, AlertTriangle } from 'lucide-react';
 import { useQuiz } from '@/contexts/quiz-context';
 import type { UserProfile } from '@/contexts/quiz-context';
-import { getAIService } from '@/lib/ai-service';
+import { Button } from '@/components/ui/button';
 
 interface AdaptiveQuestionsProps {
   onComplete: () => void;
@@ -50,8 +50,6 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
     setIsInitializing(true);
     
     try {
-      const aiService = getAIService();
-      
       // Format fixed questions for AI analysis
       const formattedAnswers = answers.slice(1).map(answer => ({
         question: answer.questionText,
@@ -59,11 +57,22 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
         selected: answer.selectedAnswer
       }));
 
-      const profileResult = await aiService.initializeProfile({
-        quizStyle: quizFramework,
-        answers: formattedAnswers
+      const response = await fetch('/api/ai/initialize-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          quizStyle: quizFramework,
+          answers: formattedAnswers
+        }),
       });
-      
+
+      if (!response.ok) {
+        throw new Error(`Failed to initialize profile: ${response.statusText}`);
+      }
+
+      const profileResult = await response.json();
       setUserProfile(profileResult.userProfile);
     } catch (error) {
       console.error('Failed to initialize profile with AI:', error);
@@ -107,8 +116,6 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
         userProfile[current].confidence < userProfile[lowest].confidence ? current : lowest
       );
 
-      const aiService = getAIService();
-      
       // Get all previous questions (including fixed questions)
       const allPreviousQuestions = [
         ...answers.map(answer => answer.questionText),
@@ -120,15 +127,27 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
 
       console.log('Generating AI question for:', targetCategory, 'Question', currentQuestionNumber);
 
-      const questionResult = await aiService.generateAdaptiveQuestion({
-        currentProfile: userProfile,
-        targetCategory,
-        quizStyle: quizFramework,
-        questionNumber: currentQuestionNumber,
-        previousQuestions: allPreviousQuestions,
-        usedAnswerOptions: allUsedAnswers
+      const response = await fetch('/api/ai/generate-question', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentProfile: userProfile,
+          targetCategory,
+          quizStyle: quizFramework,
+          questionNumber: currentQuestionNumber,
+          previousQuestions: allPreviousQuestions,
+          usedAnswerOptions: allUsedAnswers
+        }),
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.details || `Failed to generate question: ${response.statusText}`);
+      }
+
+      const questionResult = await response.json();
       console.log('AI Question generated successfully:', questionResult);
 
       // NO SIMILARITY CHECKS OR FALLBACKS - use the AI question directly
@@ -138,7 +157,7 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
       setAskedQuestions(prev => [...prev, questionResult.question]);
       setUsedAnswers(prev => {
         const newSet = new Set(prev);
-        questionResult.options.forEach(option => newSet.add(option.toLowerCase().trim()));
+        questionResult.options.forEach((option: string) => newSet.add(option.toLowerCase().trim()));
         return newSet;
       });
 
@@ -178,15 +197,25 @@ export function AdaptiveQuestions({ onComplete }: AdaptiveQuestionsProps) {
 
     // Update profile with AI
     try {
-      const aiService = getAIService();
-      const updateResult = await aiService.updateProfile({
-        currentProfile: userProfile,
-        targetCategory: currentQuestionData.targetCategory,
-        question: currentQuestionData.question,
-        selectedAnswer: selectedOption,
-        quizStyle: quizFramework
+      const response = await fetch('/api/ai/update-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentProfile: userProfile,
+          targetCategory: currentQuestionData.targetCategory,
+          question: currentQuestionData.question,
+          selectedAnswer: selectedOption,
+          quizStyle: quizFramework
+        }),
       });
 
+      if (!response.ok) {
+        throw new Error(`Failed to update profile: ${response.statusText}`);
+      }
+
+      const updateResult = await response.json();
       setUserProfile(updateResult.updatedProfile);
     } catch (error) {
       console.error('Failed to update profile with AI:', error);
