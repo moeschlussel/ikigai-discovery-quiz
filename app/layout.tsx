@@ -5,18 +5,18 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Ikigai Test',
+  title: 'Discover Your Ikigai',
   description: 'Discover your purpose with our AI-powered Ikigai quiz. Find the intersection of what you love, what you\'re good at, what the world needs, and what you can be paid for.',
   keywords: 'ikigai, purpose, quiz, AI, self-discovery, career, passion, mission',
   authors: [{ name: 'Ikigai Discovery' }],
   openGraph: {
-    title: 'Ikigai Test - Discover Your Purpose',
+    title: 'Discover Your Ikigai - Find Your Purpose',
     description: 'AI-powered quiz to help you find your reason for being',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ikigai Test - Discover Your Purpose',
+    title: 'Discover Your Ikigai - Find Your Purpose',
     description: 'AI-powered quiz to help you find your reason for being',
   },
   icons: {

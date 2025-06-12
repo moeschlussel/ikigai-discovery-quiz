@@ -1,13 +1,24 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="6" fill="url(#gradient)"/>
-  <path d="M16 6L17.2 11.8L23 13L17.2 14.2L16 20L14.8 14.2L9 13L14.8 11.8L16 6Z" fill="white"/>
-  <path d="M24 8L24.6 10.4L27 11L24.6 11.6L24 14L23.4 11.6L21 11L23.4 10.4L24 8Z" fill="white" opacity="0.8"/>
-  <path d="M8 18L8.6 20.4L11 21L8.6 21.6L8 24L7.4 21.6L5 21L7.4 20.4L8 18Z" fill="white" opacity="0.6"/>
+  <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+  
+  <!-- Main sparkle star in center -->
+  <path d="M16 8C16.5 8 16.8 8.3 17 8.8L18.5 13L22.2 13.5C22.7 13.6 23 13.9 23 14.4C23 14.7 22.8 15 22.5 15.2L19.3 17.8L20.2 21.4C20.3 21.9 20 22.3 19.5 22.3C19.3 22.3 19.1 22.2 18.9 22.1L16 20.2L13.1 22.1C12.9 22.2 12.7 22.3 12.5 22.3C12 22.3 11.7 21.9 11.8 21.4L12.7 17.8L9.5 15.2C9.2 15 9 14.7 9 14.4C9 13.9 9.3 13.6 9.8 13.5L13.5 13L15 8.8C15.2 8.3 15.5 8 16 8Z" fill="white"/>
+  
+  <!-- Small plus top left -->
+  <g transform="translate(6, 6)">
+    <path d="M4 2V6M2 4H6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Small plus bottom right -->
+  <g transform="translate(22, 22)">
+    <path d="M4 2V6M2 4H6" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+  </g>
+  
   <defs>
     <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
       <stop stop-color="#FBBF24"/>
-      <stop offset="0.5" stop-color="#F59E0B"/>
-      <stop offset="1" stop-color="#EC4899"/>
+      <stop offset="0.7" stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#F97316"/>
     </linearGradient>
   </defs>
 </svg> 
